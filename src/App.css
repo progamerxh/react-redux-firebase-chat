@@ -1,7 +1,15 @@
-.App {
+.Container {
   text-align: center;
 }
-
+.App {
+  height: 90vh;
+  width: 80vw;
+  text-align: center;
+  margin: 5vh auto;
+  background: #fff;
+  display: flex;
+  flex-direction: row;
+}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
@@ -18,6 +26,45 @@
   color: white;
 }
 
+#customBtn {
+  display: block;
+  background: white;
+  color: #444;
+  width: 190px;
+  height: fit-content;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+}
+#customBtn:hover {
+  cursor: pointer;
+}
+.signin {
+  color: #272727;
+  width: 100%;
+  padding: 100px;
+  background: #F6F6F6;
+}
+span.label {
+  font-family: serif;
+  font-weight: normal;
+}
+span.icon {
+  background: url('https://google-developers.appspot.com/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+}
+span.buttonText {
+  margin: 15px 0;
+  display: inline-block;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -29,4 +76,29 @@
   to {
     transform: rotate(360deg);
   }
+}
+/* Custom scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: null; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #F6F6F6; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #808080; 
+}
+ul{
+  list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
