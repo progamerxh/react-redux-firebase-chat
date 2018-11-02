@@ -47,6 +47,7 @@ export function auth(state = initialState, action) {
         errorMessage
       };
     case types.LOG_OUT:
+      return initialState;
     default:
       return state;
   }
