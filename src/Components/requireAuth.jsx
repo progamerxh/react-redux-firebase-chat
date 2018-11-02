@@ -10,22 +10,6 @@ export default function (ComposedComponent) {
       router: PropTypes.object
     };
 
-    // componentWillMount() {
-    //   if (!this.props.isUserSignedIn) {
-    //     this.context.router.history.push("/signin");
-    //   }
-    //   else
-    //     this.context.router.history.push("/home");
-    // }
-
-    // componentWillUpdate(nextProps) {
-    //   if (!nextProps.isUserSignedIn) {
-    //     this.context.router.history.push("/signin");
-    //   }
-    //   else
-    //     this.context.router.history.push("/home");
-    // }
-
     render() {
       console.log(this.props.isUserSignedIn);
       if (this.props.isUserSignedIn) {
