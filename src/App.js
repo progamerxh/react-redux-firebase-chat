@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route } from 'react-router-dom'
+import { fetchUser } from './Actions/authActions'
+import Signin from './Components/SignIn';
+import Home from './Components/Home'
+import { connect } from 'react-redux';
+import requireAuth from './Components/requireAuth'
+import './App.css'
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-          Welcome to react-redux-firebase Chat App
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="Container">
+        <Route path='/' component={Signin} />
+        <Route path='/' component={requireAuth(Home)} />
       </div>
+
     );
   }
 }
 
-export default App;
+export default connect(null, { fetchUser })(App);
