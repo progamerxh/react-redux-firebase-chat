@@ -403,25 +403,23 @@ padding: 6px 12px;
 
 .inbox .avt{
   align-items: center;
-    margin-right: 9px;
-    height: 50px;
-    width: 50px;
-    max-height: 50px;
-    max-width: 50px;
-    border-radius: 100%;
-    background:  rgb(0, 140, 255);
+  margin-right: 9px;
+  height: 50px;
+  width: 50px;
+  max-height: 50px;
+  max-width: 50px;
+  left: 6px;
+  bottom: 6px;
 }
 
 .inbox .content{
-  flex: 1 1 auto;
-  justify-content: center;
   min-width: 0;
   padding: 0 16px 0 0;
   text-align: left;
-  display: flex;
-  flex-direction: column;
   margin-left: 56px;
+  margin-top: 14px;
   text-overflow: ellipsis;
+  position: relative;
 }
 .inbox .name{
   min-width: 0;
