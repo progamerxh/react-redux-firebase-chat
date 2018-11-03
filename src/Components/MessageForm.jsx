@@ -8,44 +8,41 @@ class MessageForm extends Component {
         this.state = {
             message: '',
         };
-
+        this.submitHandler = this.submitHandler.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange = e => {
+    handleChange(e) {
         this.setState({ message: e.target.value });
     }
 
-    handleSend() {
-        this.props.dispatch(sendMessage(this.state.message));
-    }
-
-    handleKeyPress(event) {
-        if (event.key !== 'Enter')
-            return;
-        this.props.dispatch(sendMessage(this.state.message));
+    submitHandler(e) {
+        e.preventDefault();
+        if (this.state.message.trim !== '')
+            this.props.dispatch(sendMessage(this.state.message));
         this.setState({ message: '' });
     }
 
     render() {
 
         return (
-            <div className="send">
-                <input type="textarea"
-                    className="type"
-                    placeholder="Type message..."
-                    aria-label="Type message"
-                    value={this.state.message}
-                    onChange={this.handleChange}
-                    onKeyPress={this.handleKeyPress.bind(this)} />
+            <form onSubmit={this.submitHandler}>
+                <div className="send">
+                    <input type="text"
+                        className="type"
+                        placeholder="Type message..."
+                        aria-label="Type message"
+                        value={this.state.message}
+                        onChange={this.handleChange} />
 
-                <button
-                    className="sendbutton"
-                    onClick={this.handleSend.bind(this)}
-                >
-                    send
+                    <button
+                        className="sendbutton"
+                        onClick={this.submitHandler}
+                    >
+                        send
                 </button>
-            </div>
-
+                </div>
+            </form>
         );
     }
 }

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { retrieveMessage, refreshMessage } from '../Actions/messageActions';
 import firebase from 'firebase';
-import { connect } from 'react-redux';
-import { leaveInbox } from '../Actions/inboxActions';
-import { leaveRoom } from '../Actions/roomActions';
 
 export default class MessageList extends Component {
+    constructor(props) {
+        super(props);
+        this._firebaseRef = null;
+    }
 
-    componentDidMount() {
-        console.log(this.props.messageThread);
-        this._firebaseRef = firebase.database().ref(`messages/${this.props.messageThread}`);
+    listenMesage = (messageThread) => {
+        if (this._firebaseRef)
+            this._firebaseRef.off();
+        this._firebaseRef = firebase.database().ref(`messages/${messageThread}`);
         this._firebaseRef
             .on('child_added', (snapshot) => {
                 const { uid, displayName, photoURL, message } = snapshot.val();
@@ -17,24 +19,39 @@ export default class MessageList extends Component {
             });
     }
 
-    componentDidUpdate() {
-        console.log(this.props.messageThread);
+    componentDidMount() {
+        let messageThread = this.props.messageThread;
+        this.listenMesage(messageThread);
     }
-    
+
+    componentWillReceiveProps(nextProps) {
+        let messageThread = nextProps.messageThread;
+        if (this.props.messageThread !== messageThread) {
+            this.listenMesage(messageThread);
+        }
+    }
+
+    componentDidUpdate() {
+        const objDiv = document.getElementById('messageList');
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
     render() {
         const { messages } = this.props;
         return (
-            <div className="messages">
+            <div className="messages" id='messageList'>
                 <ul className="list">
                     {messages.map((message, index) => {
+                        const fromMe = (this.props.uid === message.uid) ? 'item from-me' : 'item';
+                        const continous = (message.isContinue) ? ' continue' : ' begin';
                         return (
-                            <li className="item" key={index}>
+                            <li className={`${fromMe + continous}`} key={index} >
                                 <img className="avt" src={message.photoURL}></img>
-                                <div className="content">
+                                <div className='content'>
                                     <h2>  {message.displayName} </h2>
 
-                                    <div className="recieve">
-                                        {message.message} </div>
+                                    <p className="message">{message.message}</p>
+
                                 </div>
                             </li>
                         )
@@ -45,8 +62,5 @@ export default class MessageList extends Component {
     }
     componentWillUnmount() {
         this._firebaseRef.off();
-        this.props.dispatch(refreshMessage());
-        this.props.dispatch(leaveInbox());
-        this.props.dispatch(leaveRoom());
     }
 }
