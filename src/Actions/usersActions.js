@@ -8,6 +8,12 @@ export const retrieveUser = (uid, user) => {
   }
 };
 
+export const refreshUser = () => {
+  return {
+    type: types.REFRESH_USER,
+  }
+};
+
 
 
 
