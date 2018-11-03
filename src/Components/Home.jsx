@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+
 import Tags from './Tags';
 import SearchForm from './SearchForm';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import '../App.css'
 import Navbar from './Navbar';
-
+import InforPanel from './InforPanel';
 
 
 class Home extends Component {
@@ -18,11 +19,10 @@ class Home extends Component {
             <SearchForm onUserLogin={this.handleUserLogin} />
             <Switch>
               <Route path='/home' component={Tags} />
-
             </Switch>
           </div>
           <div className="right">
-
+            <InforPanel />
           </div>
         </div>
       </BrowserRouter>
