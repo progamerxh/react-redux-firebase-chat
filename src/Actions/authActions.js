@@ -35,18 +35,15 @@ export function logout() {
 }
 
 export const fetchUser = () => dispatch => {
+  dispatch(signInInProgress());
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      dispatch({
-        type: types.FETCH_USER,
-        user
-      });
-    } else {
-      dispatch({
-        type: types.FETCH_USER,
-        user: null
-      });
+      dispatch(signInSuccess(user));
     }
+    else
+      dispatch({
+        type: types.LOG_OUT,
+      });
   });
 };
 
@@ -64,9 +61,7 @@ export function signIn() {
           email,
           lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
         });
-        dispatch(
-          signInSuccess(result.user)
-        );
+        dispatch(signInSuccess(result.user));
       })
       .catch((error) => {
         dispatch(signInError(error.message))
