@@ -77,6 +77,13 @@ span.buttonText {
     transform: rotate(360deg);
   }
 }
+.loader{
+  margin: auto;
+  height: 20%;
+}
+.loader img{
+  height: 50px;
+}
 /* Custom scrollbar */
 /* width */
 ::-webkit-scrollbar {
@@ -103,7 +110,7 @@ ul{
     padding: 0;
 }
 .navbar{
-  padding-top: 10%;
+  padding-top: 20px;
   background: #272727;
   display: flex;
   flex-direction: column;
@@ -130,12 +137,17 @@ ul{
   flex-direction: column;
   position: relative;
 }
+.left .bot{
+  height: 90%;
+  background: #333333;
+  overflow-y: scroll;
+}
 .right{
   position: relative;
-  border-left: 1px solid rgba(0, 0, 0, .20);
   display: flex;
   flex: 3;
   flex-direction: column;
+  max-width: 55vw;
 }
 .top{
   border-bottom: 1px solid rgba(0, 0, 0, .10);
@@ -149,31 +161,32 @@ ul{
 .right .top{
   background: #F6F6F6;
 }
-.top .tittle{
+.top .title{
   padding-top: 5px;
   line-height: 28px;
   position: relative;
   align-content: space-around;
 
 }
-.tittle .avt{
+.title .avt{
   float: left;
   position: relative;
   bottom: 0;
 }
 
-.tittle .name{
+.title .name{
   float: left;
-  margin-left: 5px;
+  margin-left: 10px;
   position: relative;
   font-size: 24px;
 }
-.tittle .fav{
-  margin-left: 5px;
+.title .fav{
+  cursor: pointer;
+  margin-left: 10px;
   float: left;
-  margin-top: 3px;
   position: relative;
-  font-size: 20px;
+  font-size: 28px;
+  color: rgb(0, 140, 255);
 }
 .account{
   position: relative;
@@ -194,10 +207,14 @@ ul{
   bottom: unset;
   cursor: pointer;
 }
-.bot{
+.right .bot{
   height: 90%;
   background: #fff;
-  overflow-y: scroll;
+}
+
+.right .bot{
+  display: flex;
+  flex-direction: column;
 }
 .icon{
   margin: 5px;
@@ -227,8 +244,14 @@ ul{
   background: #272727;
   border: none;
   width: 50%;
+  height: 2em;
   flex: 5;
+  border: none;
   color: white;
+}
+.searchtext:focus{
+  border-bottom: none !important;
+  box-shadow: none!important;
 }
 .tag{
   margin: 0;
@@ -242,7 +265,7 @@ cursor: pointer;
 .addtag{
   display: none;
 }
-.tag .item:hover, .inbox .item:hover {
+.tag .item:hover, .inbox .item:hover, .inbox .inboxing {
 background: #272727;
 }
 
@@ -266,12 +289,12 @@ background: #272727;
   background-color: #fff;
 }
 .column .roomphoto{
-  width:100px;
-  height: 100px;
+  max-width:100%;
+  max-height:100%;
   border-radius: 50%;
 }
 
-.column h4, p{
+.column h4, .column p{
   text-overflow: ellipsis;
   overflow: hidden;
   display: block;
@@ -280,6 +303,13 @@ background: #272727;
 .column h4{
   margin: 10px;
   color: rgb(0, 140, 255);
+}
+.column .jointext{
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  font-size: 18px;
+  text-overflow: ellipsis;
 }
 .row{
   margin-right: 5%;
@@ -306,73 +336,100 @@ button {
   color:  #fff;
 }
 .messages{
-  height: 90%;
+  flex: 1;
   border-bottom: 1px solid rgba(0, 0, 0, .10);
   background: #fff;
   overflow-y: scroll;
+  padding: 6px;
 }
 .send{
-  height: 10%;
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, .10);
-  background: #fff;
   display: flex;
+  padding: 6px 20px;
 }
 #message-box{
   overflow: hidden;
 }
-.send .type{
-  margin-right: 12px;
-  float: left;
-  width: 100%;
-  border: none; 
-  padding: 1em;
-  font-size: 14px;
+.send .prefix{
+  font-size: 24px;
+  margin: auto 0;
 }
-.send button{
+
+.send .type{
+  margin: 6px 12px;
+  font-size: 14px;
+  border: none;
+  color: #272727;
+}
+.send .type:focus{
+  border-color: rgb(0, 140, 255) !important;
+  box-shadow: none!important;
+}
+.send .btn-floating{
   background: rgb(0, 140, 255);
-  color: white;
   position: relative;
   width: fit-content;
   padding-left: 1em;
   padding-right: 1em;
-  border: none;
 }
 *:focus{
   outline: none;
 }
 .messages .item{
-  margin-top: 14px;
-  padding-left: 12px;
-  margin-bottom: 15px;
+  padding-left: 10px;
   position: relative;
-  width: fit-content;
+  width: 100%;
   font-style: normal;
-  max-width: 55%;
 }
-
+.messages .begin{
+  margin-top: 12px;
+}
+.messages .continue{
+  margin-top: 4px;
+}
 .messages .sended
 {
   float: right;
 }
 .content{
   margin-left: 36px;
+  overflow: hidden
 }
-
+.messages .content p{
+  margin-bottom: 0;
+}
 .content h2{
  font-size: 12px;
  text-align: left;
 }
 
-.recieve{
+.message{
 color: black;
 background: #f7f7f7;
 font-size: 14px;
 border-radius: 1.3em;
 text-align: left;
 padding: 6px 12px;
+width: fit-content; 
+max-width: 55%;
+word-wrap:break-word;
 }
 
+.from-me .content{
+  clear: right;
+  margin-right: 14px;
+}
+
+.from-me .message{
+  background:  rgb(0, 140, 255);
+  color: white; 
+  clear: right;
+  float: right;
+}
+.continue h2{
+display: none;
+}
 .avt{
   background: rgb(0, 140, 255);
   border-radius: 100%;
@@ -385,12 +442,12 @@ padding: 6px 12px;
 }
 
 .messages .avt{
-  left: 10px;
+  left: 6px;
+}
+.from-me .avt, .from-me h2{
+  display: none;
 }
 
-.inbox{
-  background: #333333;
-}
 .inbox .item{
   cursor: pointer;
   height: 64px;
