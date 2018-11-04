@@ -7,7 +7,7 @@ export function logout() {
     console.log(uid);
     firebase.database().ref().child(`users/${uid}`).update({
       isActive: false,
-      lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
+      lastTimeLoggedOut: firebase.database.ServerValue.TIMESTAMP
     });
     dispatch({
       type: types.LOG_OUT,
@@ -22,7 +22,7 @@ export const fetchUser = () => dispatch => {
       firebase.database().ref(`users/${user.uid}`).update(
         {
           isActive: true,
-          lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
+          lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP,
         }
       )
       firebase.database().ref(`users/${user.uid}/favList`)

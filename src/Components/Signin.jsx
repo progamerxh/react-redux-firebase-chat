@@ -1,24 +1,42 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import logo from '../logo.svg';
-import * as authActions from '../Actions/authActions';
 import PropTypes from "prop-types";
 import { Redirect } from 'react-router-dom'
+import { compose } from 'redux'
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
+
 export class Signin extends Component {
 
     static contextTypes = {
-        router: PropTypes.object
+        firebase: PropTypes.shape({
+            login: PropTypes.func.isRequired
+        }),
+        auth: PropTypes.object
     };
 
     render() {
-        if (!this.props.isUserSignedIn) {
+        const {auth, firebase } = this.props;
+        if (!isLoaded(auth)) {
             return (
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <h2>
                         Welcome to react-redux-firebase Chat App
                          </h2>
-                    <div id="customBtn" className="customGPlusSignIn" onClick={this.props.onSignInClick}>
+                </header>
+            )
+        }
+        else if (isEmpty(auth)) {
+            return (
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <h2>
+                        Welcome to react-redux-firebase Chat App
+                         </h2>
+                    <div id="customBtn" className="customGPlusSignIn"
+                        onClick={() => { firebase.login({ provider: 'google', type: 'popup' }) }}
+                    >
                         <span className="icon"></span>
                         <span className="buttonText">Sign in with Google</span>
                     </div>
@@ -31,18 +49,13 @@ export class Signin extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        isUserSignedIn: state.auth.isUserSignedIn,
-    }
-};
-const mapDispatchToProps = dispatch => {
-    return {
-        onSignInClick: () => {
-            dispatch(authActions.signIn())
-        }
+        auth: state.firebase.auth
     }
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+export default compose(
+    firebaseConnect(),
+    connect(
+        mapStateToProps
+    )
 )(Signin);
