@@ -1,29 +1,11 @@
 import * as types from './authActionTypes';
 import firebase from 'firebase';
 
-function signInSuccess(user) {
-  return {
-    type: types.SIGNIN_SUCCESS,
-    user
-  }
-}
-
-function signInInProgress() {
-  return {
-    type: types.SIGNIN
-  }
-}
-
-function signInError(errorMessage) {
-  return {
-    type: types.SIGNIN_ERROR,
-    errorMessage
-  }
-}
-
 export function logout() {
   return (dispatch, getState) => {
-    firebase.database().ref().child(`users/${getState().auth.uid}`).update({
+    const uid = getState().firebase.auth.uid;
+    console.log(uid);
+    firebase.database().ref().child(`users/${uid}`).update({
       isActive: false,
       lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
     });
@@ -35,10 +17,27 @@ export function logout() {
 }
 
 export const fetchUser = () => dispatch => {
-  dispatch(signInInProgress());
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      dispatch(signInSuccess(user));
+      firebase.database().ref(`users/${user.uid}`).update(
+        {
+          isActive: true,
+          lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
+        }
+      )
+      firebase.database().ref(`users/${user.uid}/favList`)
+        .once('value', favList => {
+          var _favList = [];
+          favList.forEach(user => {
+            if (user.val())
+              _favList.push(user.key)
+          })
+          console.log(_favList);
+          dispatch({
+            type: types.GET_FAVLIST,
+            favList: _favList
+          });
+        });
     }
     else
       dispatch({
@@ -47,24 +46,3 @@ export const fetchUser = () => dispatch => {
   });
 };
 
-export function signIn() {
-  return (dispatch) => {
-    dispatch(signInInProgress());
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-      .then((result) => {
-        const { user: { uid, displayName, photoURL, email } } = result;
-        firebase.database().ref(`users/${uid}`).set({
-          isActive: true,
-          displayName,
-          photoURL,
-          email,
-          lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
-        });
-        dispatch(signInSuccess(result.user));
-      })
-      .catch((error) => {
-        dispatch(signInError(error.message))
-      });
-  }
-}
