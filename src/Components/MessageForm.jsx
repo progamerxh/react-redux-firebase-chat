@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase'
 import { sendMessage } from '../Actions/messageActions';
 
 class MessageForm extends Component {
@@ -28,19 +27,13 @@ class MessageForm extends Component {
         return (
             <form onSubmit={this.submitHandler}>
                 <div className="send">
+                    <i className="prefix mdi-communication-chat" />
                     <input type="text"
                         className="type"
                         placeholder="Type message..."
                         aria-label="Type message"
                         value={this.state.message}
                         onChange={this.handleChange} />
-
-                    <button
-                        className="sendbutton"
-                        onClick={this.submitHandler}
-                    >
-                        send
-                </button>
                 </div>
             </form>
         );

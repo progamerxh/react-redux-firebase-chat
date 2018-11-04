@@ -4,7 +4,6 @@ import { leaveRoom } from '../Actions/roomActions';
 import MessageForm from './MessageForm';
 import { connect } from 'react-redux';
 import MessageList from './MessageList';
-import {refreshMessage } from '../Actions/messageActions';
 
 export class Message extends Component {
 
@@ -16,7 +15,6 @@ export class Message extends Component {
             <div id="message-box" className="bot">
                 <MessageList
                     dispatch={dispatch}
-                    messages={messages}
                     messageThread={messageThread}
                     uid = {uid}
                 />
@@ -29,7 +27,6 @@ export class Message extends Component {
     }
     componentWillUnmount()
     {
-        this.props.dispatch(refreshMessage());
         this.props.dispatch(leaveInbox());
         this.props.dispatch(leaveRoom());
     }
@@ -37,7 +34,7 @@ export class Message extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        uid : state.auth.uid,
+        uid : state.firebase.auth.uid,
         userMessage: state.userMessage,
         messages: state.messages,
         messageThread: state.messageThread
