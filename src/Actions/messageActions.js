@@ -1,20 +1,6 @@
 import * as types from './messageActionTypes';
 import firebase from 'firebase';
 
-export const retrieveMessage = ({ uid, displayName, photoURL, message }) => {
-  return {
-    type: types.RETRIEVE_MESSAGE,
-    uid,
-    displayName,
-    photoURL,
-    message
-  }
-};
-export const refreshMessage = () => {
-  return {
-    type: types.REFRESH_MESSAGE,
-  }
-};
 export const sendMessageInProgress = (payload) => {
   return {
     type: types.SEND_MESSAGE,
@@ -36,7 +22,7 @@ export const sendMessageError = () => {
 
 export const sendMessage = (message) => {
   return (dispatch, getState) => {
-    const { uid, displayName, photoURL } = getState().auth;
+    const { uid, displayName, photoURL } = getState().firebase.auth;
     if (uid !== 0) {
       dispatch(sendMessageInProgress({ uid, displayName, photoURL, message }));
       let thread = getState().messageThread;
