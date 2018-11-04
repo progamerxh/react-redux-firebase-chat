@@ -1,33 +1,59 @@
 import React, { Component } from 'react';
 import * as authActions from '../Actions/authActions';
+import { setFav } from '../Actions/inboxActions'
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { compose } from 'redux';
+import { firebaseConnect } from 'react-redux-firebase';
 
 export class InforPanel extends Component {
     static contextTypes = {
-        router: PropTypes.object
+        firebase: PropTypes.shape({
+            logout: PropTypes.func.isRequired,
+          }).isRequired,
     };
 
     render() {
-        const { auth, onLogOutClick} = this.props;
+        const {  auth, dispatch, userInbox, roomName } = this.props;
+        console.log(auth);
+        const fav = (userInbox && userInbox.isFav) ? ' fa-star' : ' fa-star-o';
         return (
             <div className="top">
-               
+                {(roomName !== '') ? (
+                    <div className="title">
+                        <div className="name">{roomName}</div>
+                    </div>
+
+                ) : (null)}
+                {(userInbox !== '') ? (
+                    <div className="title"                       >
+                        <img className="avt" src={userInbox.avatarUrl}></img>
+                        <div className="name">{userInbox.displayName}</div>
+                        <div className={`fav fa ${fav}`}
+                            onClick={() => { dispatch(setFav(userInbox)) }}
+                        >
+                        </div>
+                        <div className="lastmessage">
+                        </div>
+                    </div>
+                ) : (null)
+                }
 
                 <div className="account">
                     <img className="avt"
                         src={auth.photoURL}
                         alt={auth.displayName}
                     />
-                    <Link to='/logout'>
+                    <Link to='/'>
                         <button
                             className="button"
-                            onClick={onLogOutClick}>
+                            onClick={() => { 
+                                dispatch(authActions.logout())
+                             }}>
                             Logout
                         </button>
                     </Link>
-
                 </div>
             </div >
         )
@@ -37,23 +63,16 @@ export class InforPanel extends Component {
 
 const mapStateToProps = state => {
     return {
-        auth: state.auth,
+        auth: state.firebase.auth,
         roomName: state.roomName,
         userInbox: state.userInbox
     }
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onLogOutClick: () => {
-            dispatch(authActions.logout())
-        }
-    }
-};
 
-const InforPanelContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+export default compose(
+    firebaseConnect(),
+    connect(
+        mapStateToProps,
+    )
 )(InforPanel);
-
-export default InforPanelContainer;
