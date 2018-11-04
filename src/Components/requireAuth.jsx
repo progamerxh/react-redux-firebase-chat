@@ -1,26 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Redirect } from 'react-router-dom'
+import { isEmpty } from "react-redux-firebase";
 
 export default function (ComposedComponent) {
 
   class Authentication extends Component {
     static contextTypes = {
-      router: PropTypes.object
+      auth: PropTypes.object
     };
 
     render() {
-      console.log(this.props.isUserSignedIn);
-      if (this.props.isUserSignedIn) {
+      if (!isEmpty(this.props.auth)) {
         return <ComposedComponent {...this.props} />;
       }
-      return <Redirect to='/' />
+      return null;
     }
   }
 
   function mapStateToProps(state) {
-    return { isUserSignedIn: state.auth.isUserSignedIn, };
+    return { auth: state.firebase.auth };
   }
 
   return connect(mapStateToProps)(Authentication);
