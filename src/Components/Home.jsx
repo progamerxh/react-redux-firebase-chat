@@ -11,7 +11,6 @@ import InforPanel from './InforPanel';
 
 
 class Home extends Component {
-
   render() {
     return (
       <BrowserRouter>
@@ -22,7 +21,7 @@ class Home extends Component {
             <Switch>
               <Route path='/home' component={Tags} />
               <Route path='/room/:roomname' component={UserList} />
-              <Route path='/inbox/' component={UserList} />
+              <Route path='/inbox' component={UserList} />
             </Switch>
           </div>
           <div className="right">
@@ -30,7 +29,7 @@ class Home extends Component {
             <Switch>
               <Route path='/home' component={RoomList} />
               <Route path='/room/:roomname' component={Message} />} />
-            <Route path='/inbox/:touserid' component={Message} />
+              <Route path='/inbox/:touserid' component={Message} />
             </Switch>
           </div>
         </div>

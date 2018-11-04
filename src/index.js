@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App'
 import * as serviceWorker from './serviceWorker';
-import { createStore, applyMiddleware, compose  } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { reactReduxFirebase } from 'react-redux-firebase'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
@@ -14,8 +14,9 @@ import firebaseConfig from './Config';
 
 // react-redux-firebase config
 const rrfConfig = {
-    userProfile: 'users',
-    // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+    userProfile: 'users', // where profiles are stored in database
+    attachAuthIsReady: true, // attaches auth is ready promise to store
+    firebaseStateName: 'firebase', // should match the reducer name ('firebase' is default)
 }
 
 // Initialize firebase instance
