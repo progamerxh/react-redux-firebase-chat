@@ -1,66 +1,77 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
-import { retrieveUser, refreshUser } from '../Actions/usersActions';
 import { Link } from 'react-router-dom'
 import { joinInbox } from '../Actions/inboxActions';
 import { connect } from 'react-redux';
+import { compose } from 'redux'
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
+import Loading from './Loading';
+import { favList } from '../Reducers/authReducer';
+import TimeAgo from 'react-timeago';
+import enStrings from 'react-timeago/lib/language-strings/en'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 
+const formatter = buildFormatter(enStrings)
 
 export class UserList extends Component {
 
-  componentDidMount() {
-    this._firebaseRef = firebase.database().ref('users');
-    this._firebaseRef.on('child_added', snapshot => {
-      this.props.dispatch(retrieveUser(snapshot.key, snapshot.val()));
-    });
-  }
-
   render() {
-    const { users, dispatch } = this.props;
+    const { users, dispatch, userInbox, favList } = this.props;
     return (
-      <div className="bot inbox">
-        <ul className="list">
-          {
-            users.map((user, index) => {
-              if (user.isActive)
-                var style = { color: "#86BB71" }
-              return (
-                <li key={index} className="item" onClick={() => {
-                  dispatch(joinInbox(user));
-                }}>
-                  <Link to={`/inbox/${user.uid}`}>
-                    <img className="avt" src={user.photoURL}></img>
-                    <div className="content">
-                      <div className="name">{user.displayName}</div>
-                      <div className="lastmessage">
-                        <i className="fa fa-circle" style={style}></i>
-                        {user.isActive ? (
-                          "Online"
-                        ) : (
-                            user.lastTimeLoggedIn
-                          )}
-                      </div>
-                    </div>
-                  </Link>
-                </li>
-              )
-            })}
-        </ul>
+      <div className="bot">
+        {!isLoaded(users) ? (<Loading />)
+          : isEmpty(users) ? (
+            <h2>RoomList is empty!</h2>
+          ) : (
+              <div className="inbox">
+                <ul className="list">
+                  {Object.keys(users).map((key, index) => {
+                    const user = users[key].value;
+                    user.uid = users[key].key;
+                    const date = new Date(user.lastTimeLoggedOut);
+                    const inbox = (user.uid === userInbox.uid) ? ' inboxing' : ' ';
+                    if (user.isActive)
+                      var style = { color: "#86BB71" }
+                    return (
+                      <Link key={index} to={`/inbox/${user.uid}`}>
+                        <li className={`item ${inbox}`} onClick={() => {
+                          dispatch(joinInbox(user));
+                        }}>
+
+                          <img className="avt" src={user.avatarUrl}></img>
+                          <div className="content">
+                            <div className="name">{user.displayName}</div>
+                            <div className="lastmessage">
+                              <i className="fa fa-circle" style={style}></i>
+                              {user.isActive ? (
+                                "Online"
+                              ) : (
+                                <TimeAgo date={date} formatter={formatter} />
+                                )}
+                            </div>
+                          </div>
+                        </li>
+                      </Link>
+                    )
+                  })}
+                </ul>
+              </div>
+            )}
       </div>
     );
-  }
-
-  componentWillUnmount() {
-    this._firebaseRef.off();
-    this.props.dispatch(refreshUser());
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users
+    users: state.firebase.ordered.users,
+    userInbox: state.userInbox,
+    favList: state.favList,
   }
 };
-export default connect(
-  mapStateToProps
-)(UserList);
+
+export default compose(
+  firebaseConnect([
+    { path: '/users', queryParams: ['orderByChild=lastTimeLoggedOut'] }
+  ]),
+  connect(mapStateToProps)
+)(UserList)
