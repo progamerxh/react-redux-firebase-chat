@@ -17,7 +17,7 @@ class MessageForm extends Component {
 
     submitHandler(e) {
         e.preventDefault();
-        if (this.state.message.trim !== '')
+        if (this.state.message.trim() !== "")
             this.props.dispatch(sendMessage(this.state.message));
         this.setState({ message: '' });
     }
