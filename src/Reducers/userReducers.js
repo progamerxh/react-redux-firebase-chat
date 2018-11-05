@@ -2,7 +2,6 @@ import * as types from '../Actions/usersActionTypes';
 import { SET_FAV } from '../Actions/inboxActiontype'
 
 export const users = (state = [], action) => {
-    console.log(action);
     switch (action.type) {
         case types.RETRIEVE_USER:
             const { user } = action;

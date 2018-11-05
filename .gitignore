@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 1512169_10.rar
 firebase-debug.log
+firebase.json
+.firebaserc
+.firebase/hosting.YnVpbGQ.cache

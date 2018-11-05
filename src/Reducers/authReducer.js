@@ -1,15 +1,7 @@
 import * as types from '../Actions/authActionTypes';
 import { SET_FAV } from '../Actions/inboxActiontype'
 
-const initialState = {
-  isUserSignedIn: false,
-  isInProgress: false,
-  hasError: false,
-  errorMessage: '',
-  avatarUrl: '',
-  displayName: '',
-  uid: 0
-};
+
 export function favList(state = [], action) {
   switch (action.type) {
     case types.GET_FAVLIST:
@@ -23,16 +15,6 @@ export function favList(state = [], action) {
       if (action.isFav)
         favList.push(action.uid);
       return favList;
-    default:
-      return state;
-  }
-}
-
-export function auth(state = initialState, action) {
-  switch (action.type) {
-
-    case types.LOG_OUT:
-      return initialState;
     default:
       return state;
   }
