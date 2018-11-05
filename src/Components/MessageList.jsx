@@ -17,6 +17,10 @@ export class MessageList extends Component {
             messageList = messages[messageThread];
         }
         var lastuid = '';
+        const today = new Date();
+        var lapseday = new Date(0);
+        var timestone = null;
+        var isToday = false;
         return (
             <div className="messages" id='messageList'>
                 {!isLoaded(messages) ? (<Loading />)
@@ -26,11 +30,25 @@ export class MessageList extends Component {
                             <ul className="list">
                                 {Object.keys(messageList).map((key, index) => {
                                     const message = messageList[key];
+                                    const createday = new Date(message.createdAt);
                                     const fromMe = (uid === message.uid) ? 'item from-me' : 'item';
                                     const continous = (message.uid === lastuid) ? ' continue' : ' begin';
                                     lastuid = message.uid;
+                                    lapseday = (new Date(createday).setHours(0, 0, 0, 0) > lapseday.setHours(0, 0, 0, 0)) ? new Date(createday) : lapseday;
+                                    if (lapseday.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
+                                        timestone = lapseday.toDateString();
+                                    }
+                                    else if (!isToday) {
+                                        timestone = createday.toLocaleTimeString();
+                                        isToday = true;
+                                    }
+                                    else
+                                        timestone = null
                                     return (
                                         <li className={`${fromMe + continous}`} key={index} >
+                                            <div className="lapseday">
+                                                {timestone}
+                                            </div>
                                             <img className="avt" src={message.photoURL}></img>
                                             <div className='content'>
                                                 <h2>  {message.displayName} </h2>
