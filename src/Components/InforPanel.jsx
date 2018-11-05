@@ -10,13 +10,11 @@ import { firebaseConnect } from 'react-redux-firebase';
 export class InforPanel extends Component {
     static contextTypes = {
         firebase: PropTypes.shape({
-            logout: PropTypes.func.isRequired,
-          }).isRequired,
+            logout: PropTypes.func.isRequired
+        }),
     };
-
     render() {
-        const {  auth, dispatch, userInbox, roomName } = this.props;
-        console.log(auth);
+        const { dispatch, userInbox, roomName, auth, firebase } = this.props;
         const fav = (userInbox && userInbox.isFav) ? ' fa-star' : ' fa-star-o';
         return (
             <div className="top">
@@ -31,7 +29,9 @@ export class InforPanel extends Component {
                         <img className="avt" src={userInbox.avatarUrl}></img>
                         <div className="name">{userInbox.displayName}</div>
                         <div className={`fav fa ${fav}`}
-                            onClick={() => { dispatch(setFav(userInbox)) }}
+                            onClick={() => {
+                                 dispatch(setFav(userInbox));
+                                 }}
                         >
                         </div>
                         <div className="lastmessage">
@@ -49,7 +49,8 @@ export class InforPanel extends Component {
                         <button
                             className="button"
                             onClick={() => { 
-                                dispatch(authActions.logout())
+                                dispatch(authActions.logout());
+                                firebase.logout();
                              }}>
                             Logout
                         </button>
