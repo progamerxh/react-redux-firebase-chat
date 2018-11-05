@@ -1,14 +1,28 @@
 import * as types from './authActionTypes';
 import firebase from 'firebase';
 
+export function absence() {
+  return (dispatch, getState) => {
+    const uid = getState().firebase.auth.uid;
+    if (uid) {
+      console.log(uid);
+      firebase.database().ref().child(`users/${uid}`).update({
+        isActive: false,
+        lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
+      });
+    }
+  }
+}
+
 export function logout() {
   return (dispatch, getState) => {
     const uid = getState().firebase.auth.uid;
-    console.log(uid);
-    firebase.database().ref().child(`users/${uid}`).update({
-      isActive: false,
-      lastTimeLoggedOut: firebase.database.ServerValue.TIMESTAMP
-    });
+    if (uid) {
+      firebase.database().ref().child(`users/${uid}`).update({
+        isActive: false,
+        lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
+      });
+    }
     dispatch({
       type: types.LOG_OUT,
     });
@@ -32,7 +46,6 @@ export const fetchUser = () => dispatch => {
             if (user.val())
               _favList.push(user.key)
           })
-          console.log(_favList);
           dispatch({
             type: types.GET_FAVLIST,
             favList: _favList
