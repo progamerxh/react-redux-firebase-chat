@@ -24,10 +24,10 @@ export class UserList extends Component {
           ) : (
               <div className="inbox">
                 <ul className="list">
-                  {Object.keys(users).map((key, index) => {
+                  {Object.keys(users).reverse().map((key, index) => {
                     const user = users[key].value;
                     user.uid = users[key].key;
-                    const date = new Date(user.lastTimeLoggedOut);
+                    const date = new Date(user.lastTimeLoggedIn);
                     const inbox = (user.uid === userInbox.uid) ? ' inboxing' : ' ';
                     if (user.isActive)
                       var style = { color: "#86BB71" }
@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
 
 export default compose(
   firebaseConnect([
-    { path: '/users', queryParams: ['orderByChild=lastTimeLoggedOut'] }
+    { path: '/users', queryParams: ['orderByChild=lastTimeLoggedIn'] }
   ]),
   connect(mapStateToProps)
 )(UserList)
