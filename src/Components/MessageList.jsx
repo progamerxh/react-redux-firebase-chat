@@ -20,7 +20,7 @@ export class MessageList extends Component {
         const today = new Date();
         var lapseday = new Date(0);
         var timestone = null;
-        var isToday = false;
+        var isShowTime = false;
         return (
             <div className="messages" id='messageList'>
                 {!isLoaded(messages) ? (<Loading />)
@@ -34,20 +34,27 @@ export class MessageList extends Component {
                                     const fromMe = (uid === message.uid) ? 'item from-me' : 'item';
                                     const continous = (message.uid === lastuid) ? ' continue' : ' begin';
                                     lastuid = message.uid;
-                                    lapseday = (new Date(createday).setHours(0, 0, 0, 0) > lapseday.setHours(0, 0, 0, 0)) ? new Date(createday) : lapseday;
+                                    if (new Date(createday).setHours(0, 0, 0, 0) > lapseday.setHours(0, 0, 0, 0)) {
+                                        lapseday = new Date(createday);
+                                        isShowTime = true;
+                                    }
+                                    else {
+                                        isShowTime = false;
+                                    }
+
                                     if (lapseday.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0)) {
                                         timestone = lapseday.toDateString();
                                     }
-                                    else if (!isToday) {
+                                    else if (isShowTime) {
                                         timestone = createday.toLocaleTimeString();
-                                        isToday = true;
+                                        isShowTime = true;
                                     }
                                     else
                                         timestone = null
                                     return (
                                         <li className={`${fromMe + continous}`} key={index} >
                                             <div className="lapseday">
-                                                {timestone}
+                                                {(isShowTime) ? timestone : null}
                                             </div>
                                             <img className="avt" src={message.photoURL}></img>
                                             <div className='content'>

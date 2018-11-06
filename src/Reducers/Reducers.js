@@ -9,7 +9,6 @@ import * as inboxReducer from './inboxReducer';
 export default combineReducers({
   firebase: firebaseReducer,
   favList: authReducers.favList,
-  userMessage: messageReducers.userMessage,
   messageThread: messageReducers.messageThread,
   users: userReducers.users,
   userInbox: inboxReducer.userInbox,

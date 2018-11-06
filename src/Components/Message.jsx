@@ -20,6 +20,7 @@ export class Message extends Component {
                 />
                 <MessageForm
                     userMessage={userMessage}
+                    messageThread={messageThread}
                     dispatch={dispatch}
                 />
             </div>
