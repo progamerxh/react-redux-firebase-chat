@@ -13,9 +13,7 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 const formatter = buildFormatter(enStrings)
 
 export class UserList extends Component {
-  componentWillUpdate(){
-    this.props.dispatch(fetchUser());
-  }
+ 
   render() {
     const { users, dispatch, userInbox, favList } = this.props;
     return (
