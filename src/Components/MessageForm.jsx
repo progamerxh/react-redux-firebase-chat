@@ -21,15 +21,37 @@ class MessageForm extends Component {
         console.log(new Date().valueOf());
         e.preventDefault();
         if (this.state.text.trim() !== "") {
-            const { auth, messageThread, firebase} = this.props;
+            const { auth, messageThread, firebase, userInbox } = this.props;
+            const createdAt = Date.now();
             const message = {
                 message: this.state.text,
-                createAt: Date.now(),
+                createdAt,
                 photoURL: auth.photoURL,
                 displayName: auth.displayName,
                 uid: auth.uid
             };
             firebase.push(`messages/${messageThread}`, message);
+            if (userInbox) {
+                firebase.set(`lastmessages/${auth.uid}/${userInbox.uid}`,
+                    {
+                        createdAt, message: message.message, user: {
+                            avatarUrl: userInbox.avatarUrl,
+                            displayName: userInbox.displayName,
+                            email: userInbox.email,
+                            uid: userInbox.uid,
+                        }
+                    });
+                firebase.set(`lastmessages/${userInbox.uid}/${auth.uid}`,
+                    {
+                        createdAt, message: message.message, user: {
+                            avatarUrl: auth.photoURL,
+                            displayName: auth.displayName,
+                            email: auth.email,
+                            uid: auth.uid
+                        }
+                    });
+            }
+
         }
         this.setState({ text: '' });
     }
@@ -55,6 +77,7 @@ class MessageForm extends Component {
 export default compose(
     firebaseConnect(),
     connect((state) => ({
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        userInbox: state.userInbox
     }))
 )(MessageForm)

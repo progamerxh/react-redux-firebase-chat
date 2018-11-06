@@ -3,6 +3,7 @@ import { SET_FAV } from '../Actions/inboxActiontype'
 
 
 export function favList(state = [], action) {
+  console.log(action);
   switch (action.type) {
     case types.GET_FAVLIST:
       return action.favList

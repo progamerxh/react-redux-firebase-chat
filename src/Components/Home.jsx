@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import '../App.css'
 import Navbar from './Navbar';
 import InforPanel from './InforPanel';
+import  LastMessages  from './LastMessages';
 
 
 class Home extends Component {
@@ -21,7 +22,7 @@ class Home extends Component {
             <Switch>
               <Route path='/home' component={Tags} />
               <Route path='/room/:roomname' component={UserList} />
-              <Route path='/inbox' component={UserList} />
+              <Route path='/inbox' component={LastMessages} />
             </Switch>
           </div>
           <div className="right">

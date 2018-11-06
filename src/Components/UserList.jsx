@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import Loading from './Loading';
-import { favList } from '../Reducers/authReducer';
+import { fetchUser } from '../Actions/authActions'
 import TimeAgo from 'react-timeago';
 import enStrings from 'react-timeago/lib/language-strings/en'
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
@@ -13,7 +13,9 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 const formatter = buildFormatter(enStrings)
 
 export class UserList extends Component {
-
+  componentWillUpdate(){
+    this.props.dispatch(fetchUser());
+  }
   render() {
     const { users, dispatch, userInbox, favList } = this.props;
     return (
@@ -28,15 +30,14 @@ export class UserList extends Component {
                     const user = users[key].value;
                     user.uid = users[key].key;
                     const date = new Date(user.lastTimeLoggedIn);
-                    const inbox = (user.uid === userInbox.uid) ? ' inboxing' : ' ';
+                    const inboxing = (user.uid === userInbox.uid) ? ' inboxing' : ' ';
                     if (user.isActive)
                       var style = { color: "#86BB71" }
                     return (
                       <Link key={index} to={`/inbox/${user.uid}`}>
-                        <li className={`item ${inbox}`} onClick={() => {
+                        <li className={`item ${inboxing}`} onClick={() => {
                           dispatch(joinInbox(user));
                         }}>
-
                           <img className="avt" src={user.avatarUrl}></img>
                           <div className="content">
                             <div className="name">{user.displayName}</div>

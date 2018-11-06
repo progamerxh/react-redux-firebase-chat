@@ -5,7 +5,6 @@ export function absence() {
   return (dispatch, getState) => {
     const uid = getState().firebase.auth.uid;
     if (uid) {
-      console.log(uid);
       firebase.database().ref().child(`users/${uid}`).update({
         isActive: false,
         lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
