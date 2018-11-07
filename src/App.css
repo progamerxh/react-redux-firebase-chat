@@ -351,11 +351,32 @@ button {
 #message-box{
   overflow: hidden;
 }
+.send input[type="file" ]{
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+}
+.send .previewimage img{
+  margin: 0 6px;
+  max-height: 50px;
+  max-width: 100px;
+}
+.send .previewimage .remove{
+  position: absolute;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgb(0, 140, 255);
+}
 .send .prefix{
   font-size: 24px;
+  cursor: pointer;
   margin: auto 0;
 }
-
+.send .prefix:hover{
+  color: rgb(0, 140, 255);
+}
 .send .type{
   margin: 6px 12px;
   font-size: 14px;
@@ -396,6 +417,15 @@ button {
   margin-left: 36px;
   overflow: hidden
 }
+.content img{
+  max-width: 55%;
+  border: 1px solid rgba(0, 0, 0, .10);
+  border-radius: 1.3em;
+  margin: 6px 0;
+  padding: 4px;
+  clear: left;
+  float: left;
+}
 .messages .content p{
   margin-bottom: 0;
 }
@@ -424,6 +454,10 @@ word-wrap:break-word;
 .from-me .message{
   background:  rgb(0, 140, 255);
   color: white; 
+  clear: right;
+  float: right;
+}
+.from-me img{
   clear: right;
   float: right;
 }
