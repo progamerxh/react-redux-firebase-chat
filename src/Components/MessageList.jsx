@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux'
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import Loading from './Loading';
+import MessageRecieved from './MessageRecieved';
 
 export class MessageList extends Component {
     componentDidUpdate() {
@@ -52,16 +53,14 @@ export class MessageList extends Component {
                                     else
                                         timestone = null
                                     return (
-                                        <li className={`${fromMe + continous}`} key={index} >
-                                            <div className="lapseday">
-                                                {(isShowTime) ? timestone : null}
-                                            </div>
-                                            <img className="avt" src={message.photoURL}></img>
-                                            <div className='content'>
-                                                <h2>  {message.displayName} </h2>
-                                                <p className="message">{message.message}</p>
-                                            </div>
-                                        </li>
+                                        <MessageRecieved
+                                            fromMe={fromMe}
+                                            continous={continous}
+                                            key={index}
+                                            isShowTime={isShowTime}
+                                            timestone={timestone}
+                                            message={message}
+                                        />
                                     )
                                 })}
                             </ul>

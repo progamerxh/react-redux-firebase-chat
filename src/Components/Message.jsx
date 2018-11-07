@@ -9,7 +9,7 @@ export class Message extends Component {
 
   
     render() {
-        const { dispatch, userMessage, messages, messageThread, uid } = this.props;
+        const { dispatch, messageThread, uid } = this.props;
 
         return (
             <div id="message-box" className="bot">
@@ -19,7 +19,6 @@ export class Message extends Component {
                     uid = {uid}
                 />
                 <MessageForm
-                    userMessage={userMessage}
                     messageThread={messageThread}
                     dispatch={dispatch}
                 />
@@ -36,8 +35,6 @@ export class Message extends Component {
 const mapStateToProps = (state) => {
     return {
         uid : state.firebase.auth.uid,
-        userMessage: state.userMessage,
-        messages: state.messages,
         messageThread: state.messageThread
     }
 };

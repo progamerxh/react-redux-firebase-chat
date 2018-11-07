@@ -8,9 +8,33 @@ class MessageForm extends Component {
         super(props);
         this.state = {
             text: '',
+            file: null,
+            previewImgUrl: null,
         };
         this.submitHandler = this.submitHandler.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
+    generatePreviewImgUrl(file, callback) {
+        const reader = new FileReader();
+        const url = reader.readAsDataURL(file);
+        reader.onloadend = e => callback(reader.result);
+    }
+
+    fileChangedHandler = (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            return
+        }
+        this.generatePreviewImgUrl(file, previewImgUrl => {
+            this.setState({ file, previewImgUrl });
+        })
+    }
+
+    removeFileHandler() {
+        this.setState({ file: null, previewImgUrl: null });
+    }
+    componentWillReceiveProps() {
+        this.removeFileHandler();
     }
 
     handleChange(e) {
@@ -18,15 +42,23 @@ class MessageForm extends Component {
     }
 
     submitHandler(e) {
-        console.log(new Date().valueOf());
         e.preventDefault();
-        if (this.state.text.trim() !== "") {
+        if (this.state.text.trim() !== "" | this.state.file != null) {
             const { auth, messageThread, firebase, userInbox } = this.props;
             const createdAt = Date.now();
+            const file = this.state.file;
+            var filename = null;
+            if (file) {
+                filename = file.name;
+                const filesPath = `images/`;
+                this.props.firebase.uploadFile(filesPath, file, filesPath);
+            }
+            console.log(filename)
             const message = {
                 message: this.state.text,
                 createdAt,
                 photoURL: auth.photoURL,
+                filename: filename,
                 displayName: auth.displayName,
                 uid: auth.uid
             };
@@ -53,7 +85,7 @@ class MessageForm extends Component {
             }
 
         }
-        this.setState({ text: '' });
+        this.setState({ file: null, previewImgUrl: null, text: '' });
     }
 
     render() {
@@ -61,15 +93,29 @@ class MessageForm extends Component {
         return (
             <form onSubmit={this.submitHandler}>
                 <div className="send">
-                    <i className="prefix mdi-communication-chat" />
+                    <input id="uploadimage" type="file" onChange={this.fileChangedHandler} />
+                    <label htmlFor="uploadimage" className="prefix mdi-image-image" />
+                    {(this.state.previewImgUrl) ? (
+                        <div className="previewimage">
+                            <img src={this.state.previewImgUrl} />
+                            <i className="mdi-navigation-close remove"
+                                onClick={this.removeFileHandler.bind(this)}
+                            ></i>
+                        </div>
+                    ) : null
+                    }
                     <input type="text"
                         className="type"
                         placeholder="Type message..."
                         aria-label="Type message"
                         value={this.state.text}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange} >
+
+
+                    </input>
+
                 </div>
-            </form>
+            </form >
         );
     }
 }
