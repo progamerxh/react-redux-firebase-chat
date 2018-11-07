@@ -3,6 +3,6 @@ export default {
     authDomain: "react-chat-c506e.firebaseapp.com",
     databaseURL: "https://react-chat-c506e.firebaseio.com",
     projectId: "react-chat-c506e",
-    storageBucket: "",
+    storageBucket: "react-chat-c506e.appspot.com",
     messagingSenderId: "606265220385"
 };
