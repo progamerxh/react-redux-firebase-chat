@@ -9,7 +9,7 @@ export default class Navbar extends Component {
 
                     </li>
                     <li>
-                        <Link className="fa fa-home" to='/home'>
+                        <Link className="fa fa-users" to='/home' title="rooms">
                         </Link>
 
                     </li>
