@@ -8,7 +8,7 @@ import { joinInbox } from '../Actions/inboxActions';
 export class InboxList extends Component {
 
   render() {
-    const { lastmessages, uid, userInbox, dispatch } = this.props;
+    const { lastmessages, uid, userInbox, dispatch, favList } = this.props;
     let inboxList;
     if (lastmessages) {
       inboxList = lastmessages[uid];
@@ -23,8 +23,11 @@ export class InboxList extends Component {
               {Object.keys(inboxList).reverse().map((key, index) => {
                 const inbox = inboxList[key].value;
                 inbox.uid = inboxList[key].key;
+                for (let i = 0; i < favList.length; i++) {
+                  if (inbox.uid === favList[i])
+                    inbox.user.isFav = true;
+                }
                 const inboxing = (inbox.uid === userInbox.uid) ? ' inboxing' : ' ';
-                console.log(inbox);
                 return (
                   <Link key={index} to={`/inbox/${inbox.uid}`}>
                     <li className={`item ${inboxing}`} onClick={() => {
@@ -56,6 +59,7 @@ export default compose(
   ]),
   connect((state) => ({
     lastmessages: state.firebase.ordered.lastmessages,
-    userInbox: state.userInbox
+    userInbox: state.userInbox,
+    favList: state.favList,
   }))
 )(InboxList)

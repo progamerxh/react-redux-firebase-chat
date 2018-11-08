@@ -13,7 +13,6 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 const formatter = buildFormatter(enStrings)
 
 export class UserList extends Component {
- 
   render() {
     const { users, dispatch, userInbox, favList } = this.props;
     return (
@@ -27,6 +26,10 @@ export class UserList extends Component {
                   {Object.keys(users).reverse().map((key, index) => {
                     const user = users[key].value;
                     user.uid = users[key].key;
+                    for (let i = 0; i < favList.length; i++) {
+                      if (user.uid === favList[i])
+                        user.isFav = true;
+                    }
                     const date = new Date(user.lastTimeLoggedIn);
                     const inboxing = (user.uid === userInbox.uid) ? ' inboxing' : ' ';
                     if (user.isActive)
@@ -44,7 +47,7 @@ export class UserList extends Component {
                               {user.isActive ? (
                                 "Online"
                               ) : (
-                                <TimeAgo date={date} formatter={formatter} />
+                                  <TimeAgo date={date} formatter={formatter} />
                                 )}
                             </div>
                           </div>

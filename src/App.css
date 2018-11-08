@@ -186,6 +186,11 @@ ul{
   float: left;
   position: relative;
   font-size: 28px;
+}
+.fav:hover{
+  color: rgb(0, 140, 255);
+}
+.fa-star{
   color: rgb(0, 140, 255);
 }
 .account{
@@ -216,20 +221,12 @@ ul{
   display: flex;
   flex-direction: column;
 }
-.icon{
-  margin: 5px;
-  float: left;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
 .search{
   color: #BEBEBE;
   border: none;
   border-radius: 50px;
   background: #272727;
   font-family: Arial, sans-serif;
-  font-size: 14px;
   height: 30px;
   line-height: 30px;
   padding-right: 1em;
@@ -237,12 +234,14 @@ ul{
   flex-direction: row;
   margin: 0 1em;
 }
-.search .icon{
-  flex: 1;
+.search .prefix{
+  font-size: 18px;
+  margin: auto 4px;
 }
 .search .searchtext{
   background: #272727;
   border: none;
+  font-size: 14px;
   width: 50%;
   height: 2em;
   flex: 5;
