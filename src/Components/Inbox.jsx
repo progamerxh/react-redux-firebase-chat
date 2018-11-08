@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 export default class Inbox extends Component {
     render() {
         const { inbox } = this.props;
-        console.log(inbox);
         return (
             <Link to={`/inbox/${inbox.uid}`}>
                 <li className={`item `} onClick={() => {

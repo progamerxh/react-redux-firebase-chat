@@ -38,7 +38,6 @@ class MessageForm extends Component {
     }
 
     handleChange(e) {
-        console.log(e.target.value);
         this.setState({ text: e.target.value });
     }
 
@@ -59,7 +58,6 @@ class MessageForm extends Component {
                 const filesPath = `images/`;
                 this.props.firebase.uploadFile(filesPath, file, filesPath);
             }
-            console.log(filename)
             const message = {
                 message: this.state.text,
                 createdAt,

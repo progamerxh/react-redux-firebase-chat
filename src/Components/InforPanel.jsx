@@ -15,7 +15,6 @@ export class InforPanel extends Component {
     };
     render() {
         const { dispatch, userInbox, roomName, auth, firebase } = this.props;
-        console.log(userInbox);
         const fav = (userInbox && userInbox.isFav) ? ' fa-star' : ' fa-star-o';
         return (
             <div className="top">

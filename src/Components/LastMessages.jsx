@@ -5,7 +5,6 @@ import InboxList from './InboxList';
 export class LastMessages extends Component {
     render() {
         const { uid } = this.props;
-        console.log(uid);
         return (
             <InboxList uid={uid} />
         );
