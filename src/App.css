@@ -357,6 +357,7 @@ button {
   width: 1px;
   height: 1px;
 }
+
 .send .previewimage img{
   margin: 0 6px;
   max-height: 50px;
@@ -381,6 +382,8 @@ button {
   font-size: 14px;
   border: none;
   color: #272727;
+  width: 100%;
+  overflow: auto;
 }
 .send .type:focus{
   border-color: rgb(0, 140, 255) !important;
@@ -443,6 +446,7 @@ padding: 6px 12px;
 width: fit-content; 
 max-width: 55%;
 word-wrap:break-word;
+white-space: pre-line;
 }
 
 .from-me .content{

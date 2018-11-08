@@ -38,9 +38,15 @@ class MessageForm extends Component {
     }
 
     handleChange(e) {
+        console.log(e.target.value);
         this.setState({ text: e.target.value });
     }
 
+    onKeyDown = e => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            this.submitHandler(e);
+        }
+    }
     submitHandler(e) {
         e.preventDefault();
         if (this.state.text.trim() !== "" | this.state.file != null) {
@@ -89,33 +95,30 @@ class MessageForm extends Component {
     }
 
     render() {
-
         return (
-            <form onSubmit={this.submitHandler}>
-                <div className="send">
-                    <input id="uploadimage" type="file" onChange={this.fileChangedHandler} />
-                    <label htmlFor="uploadimage" className="prefix mdi-image-image" />
-                    {(this.state.previewImgUrl) ? (
-                        <div className="previewimage">
-                            <img src={this.state.previewImgUrl} />
-                            <i className="mdi-navigation-close remove"
-                                onClick={this.removeFileHandler.bind(this)}
-                            ></i>
-                        </div>
-                    ) : null
-                    }
-                    <input type="text"
-                        className="type"
-                        placeholder="Type message..."
-                        aria-label="Type message"
-                        value={this.state.text}
-                        onChange={this.handleChange} >
+            <div className="send">
+                <input id="uploadimage" type="file" onChange={this.fileChangedHandler} />
+                <label htmlFor="uploadimage" className="prefix mdi-image-image" />
+                {(this.state.previewImgUrl) ? (
+                    <div className="previewimage">
+                        <img src={this.state.previewImgUrl} />
+                        <i className="mdi-navigation-close remove"
+                            onClick={this.removeFileHandler.bind(this)}
+                        ></i>
+                    </div>
+                ) : null
+                }
+                <textarea type="text"
+                    className="type"
+                    placeholder="Type message..."
+                    aria-label="Type message"
+                    value={this.state.text}
+                    onKeyDown={this.onKeyDown}
+                    onChange={this.handleChange} >
 
 
-                    </input>
-
-                </div>
-            </form >
+                </textarea>
+            </div>
         );
     }
 }
