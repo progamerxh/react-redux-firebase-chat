@@ -14,7 +14,6 @@ export class MessageRecieved extends Component {
         if (!this.state.imgsrc && message.filename)
             firebase.storage().ref(`images/${message.filename}`).getDownloadURL()
                 .then(url => {
-                    console.log(url);
                     this.setState({ imgsrc: url });
                 });
 
@@ -28,9 +27,13 @@ export class MessageRecieved extends Component {
                     <h2>  {message.displayName} </h2>
                     {(message.message) ?
                         <p className="message">{message.message}</p>
-                        : null} 
-                    {(this.state.imgsrc) ? <img id="photo" src={this.state.imgsrc}></img>
                         : null}
+                    {(this.state.imgsrc) ? (
+                        <a href={this.state.imgsrc} target="_blank">
+                            <img id="photo" src={this.state.imgsrc}
+                            ></img>
+                        </a>
+                    ) : null}
                 </div>
             </li>
         )

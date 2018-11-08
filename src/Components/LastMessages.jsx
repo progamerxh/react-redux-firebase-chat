@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import  InboxList  from './InboxList';
+import InboxList from './InboxList';
 
 export class LastMessages extends Component {
-
-
     render() {
         const { uid } = this.props;
         console.log(uid);
         return (
-            <InboxList uid={uid}/>
+            <InboxList uid={uid} />
         );
     }
 }
