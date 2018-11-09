@@ -130,9 +130,9 @@ ul{
 }
 .left{
   background: #333333;
-  flex: 1;
-  max-width: 420px;
-  min-width: 240px;
+  flex: 3;
+  max-width: 300px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -145,7 +145,7 @@ ul{
 .right{
   position: relative;
   display: flex;
-  flex: 3;
+  flex: 7;
   flex-direction: column;
   max-width: 55vw;
 }
@@ -428,6 +428,11 @@ button {
   clear: left;
   float: left;
 }
+.content .infor{
+  display: flex;
+  flex-direction: row;
+}
+
 .messages .content p{
   margin-bottom: 0;
 }
@@ -508,7 +513,7 @@ display: none;
 
 .inbox .content{
   min-width: 0;
-  padding: 0 16px 0 0;
+  width: 100%;
   text-align: left;
   margin-left: 56px;
   margin-top: 14px;
@@ -524,16 +529,23 @@ display: none;
   font-size: 15px;
   font-weight: 400;
   line-height: 1.4;
+  flex :1;
 }
 
-.inbox .lastmessage{
+.inbox .status, .lastmessage{
   min-width: 0;
   overflow: hidden;
   color: #BEBEBE;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.lastmessage .fa{
+
+.status{
+  position: absolute;
+  font-size: 12px;
+  right: 0;
+}
+.status .fa{
   margin-right: 5px;
 }
 

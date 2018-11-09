@@ -1,29 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import InboxList from './InboxList';
 import { compose } from 'redux'
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import Loading from './Loading';
-import { Link } from "react-router-dom";
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 
-export default class Inbox extends Component {
+export class Inbox extends Component {
     render() {
-        const { inbox } = this.props;
+        const { uid, users } = this.props;
         return (
-            <Link to={`/inbox/${inbox.uid}`}>
-                <li className={`item `} onClick={() => {
-                    // dispatch(joinInbox(user));
-                }}>
-                    <img className="avt"></img>
-                    <div className="content">
-                        <div className="name"></div>
-                        <div className="lastmessage">
-                            {inbox.message}
-                        </div>
-                    </div>
-                </li>
-            </Link>
+            <div className="bot">
+                {!isLoaded(users) ? (<Loading />)
+                    : isEmpty(users) ? (
+                        <h2>There's no users!</h2>
+                    ) : (
+                            <InboxList users={users} uid={uid} />
+                        )}
+            </div>
+
         );
     }
 }
 
-
+const mapStateToProps = (state) => {
+    return {
+        uid: state.firebase.auth.uid,
+        users: state.firebase.ordered.users,
+    }
+};
+export default compose(
+    firebaseConnect([
+        { path: '/users', queryParams: ['orderByChild=lastTimeLoggedIn'] }
+    ]),
+    connect(mapStateToProps)
+)(Inbox);
