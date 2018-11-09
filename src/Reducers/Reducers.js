@@ -11,6 +11,7 @@ export default combineReducers({
   favList: authReducers.favList,
   messageThread: messageReducers.messageThread,
   users: userReducers.users,
+  searchUser: userReducers.searchUser,
   userInbox: inboxReducer.userInbox,
   roomName: roomReducer.roomName
 });

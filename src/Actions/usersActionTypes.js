@@ -1,2 +1,1 @@
-export const REFRESH_USER = 'REFRESH_USER';
-export const RETRIEVE_USER = 'RETRIEVE_USER';
+export const SEARCH_USER = 'SEARCH_USER';
