@@ -33,16 +33,17 @@ export class InboxList extends Component {
   }
 
   render() {
-    const { lastmessages, uid, users, userInbox, dispatch, favList } = this.props;
+    const { lastmessages, uid, userInbox, dispatch, favList } = this.props;
     let inboxList;
-    let userList = users;
+    let onlineFavList = [];
+    var userList = this.props.users;
     if (lastmessages) {
       inboxList = lastmessages[uid];
       Object.keys(inboxList).map((key) => {
         const inbox = inboxList[key].value;
         inbox.uid = inboxList[key].key;
         var pos = 0;
-        for (let j = 0; j < userList.length; j++) {
+        for (let i = 0; i < userList.length; i++) {
           if (inbox.uid == userList[pos].key) {
             var temp = userList.splice(pos, 1)[0];
             temp.lastmessage = inbox.message;
@@ -50,17 +51,23 @@ export class InboxList extends Component {
           }
           pos++;
         }
-        pos = 0;
-        for (let j = 0; j < userList.length; j++) {
-          if (userList[pos].isFav && userList[pos].isActive) {
-            var temp = userList.splice(pos, 1)[0];
-            userList.push(temp);
-          }
-          pos++;
-        }
       })
     }
-
+    if (favList) {
+      var pos = 0;
+      for (let i = 0; i < userList.length; i++) {
+        userList[pos].isFav = false;
+        for (let j = 0; j < favList.length; j++)
+          if (userList[pos].key == favList[j]) {
+            userList[pos].isFav = true;
+            if (userList[pos].value.isActive) {
+              var temp = userList.splice(pos, 1)[0];
+              userList.push(temp);
+            }
+          }
+        pos++;
+      }
+    }
     return (
       <ul className="list">
         {!isLoaded(lastmessages) ? (<Loading />)
@@ -68,10 +75,11 @@ export class InboxList extends Component {
             <h2>Inbox is empty!</h2>
           ) : (<div className="inbox">
 
-            {Object.keys(users).reverse().map((key, index) => {
-              const user = users[key].value;
-              user.uid = users[key].key;
-              user.lastmessage = users[key].lastmessage
+            {Object.keys(userList).reverse().map((key, index) => {
+              const user = userList[key].value;
+              user.uid = userList[key].key;
+              user.isFav = userList[key].isFav;
+              user.lastmessage = userList[key].lastmessage
               const date = new Date(user.lastTimeLoggedIn);
               const inboxing = (user.uid === userInbox.uid) ? ' inboxing' : ' ';
               if (!this.searchUser(user.displayName))
