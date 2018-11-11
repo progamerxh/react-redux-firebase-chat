@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import { fetchUser, absence } from './Actions/authActions'
+import { absence } from './Actions/authActions'
 import Signin from './Components/SignIn';
 import Home from './Components/Home'
 import { connect } from 'react-redux';
@@ -9,7 +9,6 @@ import './App.css'
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchUser();
     window.addEventListener("unload", this.dispatchActionOnExit());
   }
   componentWillMount() {
@@ -33,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, { fetchUser, absence })(App);
+export default connect(null, { absence })(App);

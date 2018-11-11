@@ -29,32 +29,3 @@ export function logout() {
   }
 }
 
-export const fetchUser = () => dispatch => {
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      firebase.database().ref(`users/${user.uid}`).update(
-        {
-          isActive: true,
-          lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP,
-        }
-      )
-      firebase.database().ref(`users/${user.uid}/favList`)
-        .once('value', favList => {
-          var _favList = [];
-          favList.forEach(user => {
-            if (user.val())
-              _favList.push(user.key)
-          })
-          dispatch({
-            type: types.GET_FAVLIST,
-            favList: _favList
-          });
-        });
-    }
-    else
-      dispatch({
-        type: types.LOG_OUT,
-      });
-  });
-};
-

@@ -11,12 +11,39 @@ import rootReducer from './Reducers/Reducers';
 import firebase from 'firebase';
 import thunk from 'redux-thunk';
 import firebaseConfig from './Config';
+import * as types from './Actions/authActionTypes';
 
 // react-redux-firebase config
 const rrfConfig = {
     userProfile: 'users', // where profiles are stored in database
     attachAuthIsReady: true, // attaches auth is ready promise to store
     firebaseStateName: 'firebase', // should match the reducer name ('firebase' is default)
+    onAuthStateChanged: ((authData, firebase, dispatch) => {
+        console.log(authData);
+        if (authData) {
+            firebase.database().ref(`users/${authData.uid}`).update(
+                {
+                    isActive: true,
+                    lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP,
+                }
+            )
+            firebase.database().ref(`users/${authData.uid}/favList`)
+                .once('value', favList => {
+                    var _favList = [];
+                    favList.forEach(user => {
+                        if (user.val())
+                            _favList.push(user.key)
+                    })
+                    dispatch({
+                        type: types.GET_FAVLIST,
+                        favList: _favList
+                    });
+                });
+        }
+        else
+            firebase.auth().signOut();
+
+    })
 }
 
 // Initialize firebase instance
