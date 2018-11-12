@@ -1,18 +1,6 @@
 import * as types from './authActionTypes';
 import firebase from 'firebase';
 
-export function absence() {
-  return (dispatch, getState) => {
-    const uid = getState().firebase.auth.uid;
-    if (uid) {
-      firebase.database().ref().child(`users/${uid}`).update({
-        isActive: false,
-        lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP
-      });
-    }
-  }
-}
-
 export function logout() {
   return (dispatch, getState) => {
     const uid = getState().firebase.auth.uid;

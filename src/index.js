@@ -19,11 +19,19 @@ const rrfConfig = {
     attachAuthIsReady: true, // attaches auth is ready promise to store
     firebaseStateName: 'firebase', // should match the reducer name ('firebase' is default)
     onAuthStateChanged: ((authData, firebase, dispatch) => {
-        console.log(authData);
         if (authData) {
+            const userRef = firebase.database().ref(`users/${authData.uid}`)
+            const connectedRef = firebase.database().ref(".info/connected");
+            connectedRef.on("value", function (snap) {
+                if (snap.val() === true) {
+                    userRef.child('isActive').onDisconnect().set(false);
+                    userRef.child('lastTimeLoggedIn').onDisconnect().set(firebase.database.ServerValue.TIMESTAMP);
+                }
+            });
             firebase.database().ref(`users/${authData.uid}`).update(
                 {
                     isActive: true,
+                    firstName: authData.displayName.split(" ", 1)[0],
                     lastTimeLoggedIn: firebase.database.ServerValue.TIMESTAMP,
                 }
             )
