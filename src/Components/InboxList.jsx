@@ -35,7 +35,6 @@ export class InboxList extends Component {
   render() {
     const { lastmessages, uid, userInbox, dispatch, favList } = this.props;
     let inboxList;
-    let onlineFavList = [];
     var userList = this.props.users;
     if (lastmessages) {
       inboxList = lastmessages[uid];
@@ -47,7 +46,7 @@ export class InboxList extends Component {
           if (inbox.uid == userList[pos].key) {
             var temp = userList.splice(pos, 1)[0];
             temp.lastmessage = inbox.message;
-            userList.push(temp);
+            userList.unshift(temp);
           }
           pos++;
         }
@@ -62,7 +61,7 @@ export class InboxList extends Component {
             userList[pos].isFav = true;
             if (userList[pos].value.isActive) {
               var temp = userList.splice(pos, 1)[0];
-              userList.push(temp);
+              userList.unshift(temp);
             }
           }
         pos++;
@@ -71,11 +70,11 @@ export class InboxList extends Component {
     return (
       <ul className="list">
         {!isLoaded(lastmessages) ? (<Loading />)
-          : (!inboxList) ? (
+          : (!userList) ? (
             <h2>Inbox is empty!</h2>
           ) : (<div className="inbox">
 
-            {Object.keys(userList).reverse().map((key, index) => {
+            {Object.keys(userList).map((key, index) => {
               const user = userList[key].value;
               user.uid = userList[key].key;
               user.isFav = userList[key].isFav;

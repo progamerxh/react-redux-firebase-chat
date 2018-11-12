@@ -30,7 +30,7 @@ const mapStateToProps = (state) => {
 };
 export default compose(
     firebaseConnect([
-        { path: '/users', queryParams: ['orderByChild=lastTimeLoggedIn'] }
+        { path: '/users', queryParams: ['orderByChild=firstName'] }
     ]),
     connect(mapStateToProps)
 )(Inbox);

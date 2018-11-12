@@ -20,7 +20,6 @@ export class MessageRecieved extends Component {
 
     render() {
         const { fromMe, continous, isShowTime, message, timestone, firebase } = this.props;
-
         if (!this.state.imgsrc && message.filename)
             firebase.storage().ref(`images/${message.filename}`).getDownloadURL()
                 .then(url => {
