@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import InboxList from './InboxList';
+import InboxList from '../Components/InboxList';
 import { compose } from 'redux'
-import Loading from './Loading';
+import Loading from '../Components/Loading';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 
 export class Inbox extends Component {

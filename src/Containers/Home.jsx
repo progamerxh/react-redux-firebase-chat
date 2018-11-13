@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import Message from './Message';
-import RoomList from './RoomList';
-import Tags from './Tags';
-import SearchForm from './SearchForm';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import '../App.css'
-import Navbar from './Navbar';
-import InforPanel from './InforPanel';
+import Message from './Message';
+import RoomList from '../Components/RoomList';
+import Tags from '../Components/Tags';
+import SearchForm from '../Components/SearchForm';
+import Navbar from '../Components/Navbar';
+import InforPanel from '../Components/InforPanel';
 import Inbox from './Inbox';
-
+import '../App.css'
 
 class Home extends Component {
   render() {
@@ -37,5 +36,4 @@ class Home extends Component {
     );
   }
 }
-
 export default Home;

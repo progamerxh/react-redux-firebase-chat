@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom'
-import Signin from './Components/SignIn';
-import Home from './Components/Home'
-import requireAuth from './Components/requireAuth'
-import './App.css'
+import Signin from '../Components/SignIn';
+import Home from './Home'
+import requireAuth from '../Components/requireAuth'
+import '../App.css'
 
 class App extends Component {
  

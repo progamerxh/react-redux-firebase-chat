@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App'
+import App from './Containers/App'
 import * as serviceWorker from './serviceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { reactReduxFirebase } from 'react-redux-firebase'
@@ -54,13 +54,10 @@ const rrfConfig = {
     })
 }
 
-// Initialize firebase instance
 firebase.initializeApp(firebaseConfig);
 
-// Add reactReduxFirebase enhancer when making store creator
 const createStoreWithFirebase = compose(
-    reactReduxFirebase(firebase, rrfConfig), // firebase instance as first argument
-    // reduxFirestore(firebase) // <- needed if using firestore
+    reactReduxFirebase(firebase, rrfConfig), 
 )(createStore)
 const initialState = {};
 const middlewares = applyMiddleware(thunk)
@@ -74,7 +71,4 @@ ReactDOM.render((
     </Provider>
 ), document.getElementById('root'))
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();

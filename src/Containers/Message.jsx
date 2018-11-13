@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { leaveInbox } from '../Actions/inboxActions';
 import { leaveRoom } from '../Actions/roomActions';
-import MessageForm from './MessageForm';
 import { connect } from 'react-redux';
-import MessageList from './MessageList';
+import MessageForm from '../Components/MessageForm';
+import MessageList from '../Components/MessageList';
 
 export class Message extends Component {
-
   
     render() {
         const { dispatch, messageThread, uid } = this.props;
